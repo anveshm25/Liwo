@@ -28,6 +28,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   graphql: ^5.1.3
+  provider: ^6.0.5
   flutter:
     sdk: flutter
 
