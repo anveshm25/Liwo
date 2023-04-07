@@ -26,9 +26,6 @@ mutation CustomerCreate($input: CustomerCreateInput!) {
         await _service.performMutation(mutation, variables: variables);
     RegisterUserResponse userResponse =
         RegisterUserResponse.fromJson(response.data ?? {});
-    print('\n');
-    print('${response.data}');
-    print('\n');
     return ApiResponse<RegisterUserResponse>(
         isLoading: false, success: !response.hasException, data: userResponse);
   }

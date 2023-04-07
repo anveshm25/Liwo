@@ -56,12 +56,13 @@ class ProductRespository {
   }
 ''';
     var result = await _service.performQuery(query);
+
     ProductData productData = ProductData.fromJson(result.data ?? {});
     ApiResponse<ProductData> response = ApiResponse(
         isLoading: false,
         success: !result.hasException,
         message: "",
         data: productData);
-   return response;     
+    return response;
   }
 }

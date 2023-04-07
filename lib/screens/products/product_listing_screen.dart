@@ -17,6 +17,8 @@ class _ProductListingScreenState extends State<ProductListingScreen> {
   initState() {
     super.initState();
     context.read<ProductListingController>().getProduct();
+    context.read<ProductListingController>().getProduct();
+    context.read<ProductListingController>().getProduct();
   }
 
   @override

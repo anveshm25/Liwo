@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:liwo_mobile/config/routes/app_route_constants.dart';
+import 'package:liwo_mobile/screens/login/controller/login_controller.dart';
+import 'package:provider/provider.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  late LoginController loginState;
+
+  @override
+  void initState() {
+    super.initState();
+    loginState = context.read<LoginController>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,17 +37,19 @@ class Login extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20.0),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: loginState.loginInputModel.emailController,
+                decoration: const InputDecoration(
                   hintText: 'Email',
                   prefixIcon: Icon(Icons.email),
                   border: OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 20.0),
-              const TextField(
+              TextField(
+                controller: loginState.loginInputModel.passwordConroller,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Password',
                   prefixIcon: Icon(Icons.lock),
                   border: OutlineInputBorder(),
@@ -40,7 +57,15 @@ class Login extends StatelessWidget {
               ),
               const SizedBox(height: 20.0),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  loginState.login(callback: (bool success) {
+                    print("LOGIN is successful $success");
+                    if (success) {
+                      context.pushReplacementNamed(
+                          AppRouteConstants.productListingRouteName);
+                    }
+                  });
+                },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50.0),
                   backgroundColor: Colors.blue,
@@ -59,7 +84,8 @@ class Login extends StatelessWidget {
                     style: TextStyle(fontSize: 16.0),
                   ),
                   TextButton(
-                    onPressed: () => GoRouter.of(context).pushNamed(AppRouteConstants.signUp),
+                    onPressed: () => GoRouter.of(context)
+                        .pushNamed(AppRouteConstants.signUp),
                     child: const Text(
                       'Sign up',
                       style: TextStyle(
@@ -76,5 +102,11 @@ class Login extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    loginState.loginInputModel.dispose();
   }
 }

@@ -16,12 +16,18 @@ class SharedPreferencesUtils {
   }
 
   Future<bool> addStringToSF(
-      {required String key, required String value}) async {
-    return await prefs.setString(key, value);
+      {required String key, required String? value}) async {
+    if (value != null) {
+      return await prefs.setString(key, value);
+    }
+    return false;
   }
 
-  Future<bool> addIntToSF({required String key, required int value}) async {
-    return await prefs.setInt(key, value);
+  Future<bool> addIntToSF({required String key, required int? value}) async {
+    if (value != null) {
+      return await prefs.setInt(key, value);
+    }
+    return false;
   }
 
   Future<bool> addDoubleToSF(
