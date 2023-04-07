@@ -28,6 +28,6 @@ mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
     CreateCursomerAccessTokenResponseModel model =
         CreateCursomerAccessTokenResponseModel.fromJson(response.data ?? {});
     return ApiResponse<CreateCursomerAccessTokenResponseModel>(
-        isLoading: false, success: !response.hasException, data: model);
+        status: false, success: !response.hasException, data: model);
   }
 }

@@ -27,6 +27,8 @@ mutation CustomerCreate($input: CustomerCreateInput!) {
     RegisterUserResponse userResponse =
         RegisterUserResponse.fromJson(response.data ?? {});
     return ApiResponse<RegisterUserResponse>(
-        isLoading: false, success: !response.hasException, data: userResponse);
+        status: response.hasException ? Status.error : Status.success,
+        success: !response.hasException,
+        data: userResponse);
   }
 }

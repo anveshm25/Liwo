@@ -10,10 +10,10 @@ class LoginController extends ChangeNotifier {
   final LoginRepository _repository = LoginRepository();
   final LoginInputModel loginInputModel = LoginInputModel();
   ApiResponse<CreateCursomerAccessTokenResponseModel> apiResponse =
-      ApiResponse<CreateCursomerAccessTokenResponseModel>(isLoading: false);
+      ApiResponse<CreateCursomerAccessTokenResponseModel>(status: false);
 
   login({required Function(bool) callback}) async {
-    apiResponse.isLoading = true;
+    apiResponse.status = true;
     notifyListeners();
     apiResponse = await _repository
         .createAccessToken(variables: {'input': loginInputModel.toJson()});

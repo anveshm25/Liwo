@@ -59,7 +59,7 @@ class ProductRespository {
 
     ProductData productData = ProductData.fromJson(result.data ?? {});
     ApiResponse<ProductData> response = ApiResponse(
-        isLoading: false,
+        status: result.hasException ? Status.error : Status.success,
         success: !result.hasException,
         message: "",
         data: productData);

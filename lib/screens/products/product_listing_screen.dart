@@ -5,6 +5,8 @@ import 'package:liwo_mobile/screens/products/controller/product_listing_controll
 import 'package:liwo_mobile/screens/products/models/product_list_data.dart';
 import 'package:provider/provider.dart';
 
+import '../../network/api_response.dart';
+
 class ProductListingScreen extends StatefulWidget {
   const ProductListingScreen({super.key});
 
@@ -53,31 +55,32 @@ class _ProductListingScreenState extends State<ProductListingScreen> {
               ],
             ),
             Consumer<ProductListingController>(
-                builder: (_, value, __) => value.productListResponse.isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2),
-                        itemBuilder: (BuildContext context, int index) {
-                          ProductsEdge product = value.productListResponse.data
-                                  ?.products?.edges?[index] ??
-                              ProductsEdge();
-                          return courseCard(
-                              courseImage: product
-                                  .node?.images?.edges?.first.node?.originalSrc,
-                              courseInfo: product.node?.title ?? '',
-                              courseName: product.node?.title ?? '',
-                              coursePrice: product.node?.priceRange
-                                      ?.maxVariantPrice?.amount ??
-                                  '');
-                        },
-                        itemCount: value.productListResponse.data?.products
-                                ?.edges?.length ??
-                            0,
-                      ))
+                builder: (_, value, __) =>
+                    value.productListResponse.status == Status.loading
+                        ? const Center(child: CircularProgressIndicator())
+                        : GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
+                            itemBuilder: (BuildContext context, int index) {
+                              ProductsEdge product = value.productListResponse
+                                      .data?.products?.edges?[index] ??
+                                  ProductsEdge();
+                              return courseCard(
+                                  courseImage: product.node?.images?.edges
+                                      ?.first.node?.originalSrc,
+                                  courseInfo: product.node?.title ?? '',
+                                  courseName: product.node?.title ?? '',
+                                  coursePrice: product.node?.priceRange
+                                          ?.maxVariantPrice?.amount ??
+                                      '');
+                            },
+                            itemCount: value.productListResponse.data?.products
+                                    ?.edges?.length ??
+                                0,
+                          ))
           ],
         ),
       ),
