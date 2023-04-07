@@ -6,10 +6,12 @@ class GraphQLService {
   late GraphQLClient _graphQLClient;
 
   GraphQLService() {
-    _graphQLClient =
-        GraphQLClient(link: HttpLink(apiUrl,defaultHeaders: {
-          'X-Shopify-Storefront-Access-Token':storeFrontApiKey,
-        }), cache: GraphQLCache(),);
+    _graphQLClient = GraphQLClient(
+      link: HttpLink(apiUrl, defaultHeaders: {
+        'X-Shopify-Storefront-Access-Token': storeFrontApiKey,
+      }),
+      cache: GraphQLCache(),
+    );
   }
 
   Future<QueryResult> performQuery(String query) async {
@@ -18,16 +20,20 @@ class GraphQLService {
     return result;
   }
 
-  Future<QueryResult> performMutation(String mutation) async {
-    final MutationOptions options = MutationOptions(document: gql(mutation));
+  Future<QueryResult> performMutation(String mutation,
+      {Map<String, dynamic>? variables = const {}}) async {
+    final MutationOptions options =
+        MutationOptions(document: gql(mutation), variables: variables ?? {});
     final QueryResult result = await _graphQLClient.mutate(options);
     return result;
   }
 
-  Future<Stream<QueryResult<Object?>>> performSubscription(String subscription) async {
+  Future<Stream<QueryResult<Object?>>> performSubscription(
+      String subscription) async {
     final SubscriptionOptions options =
         SubscriptionOptions(document: gql(subscription));
-    final Stream<QueryResult<Object?>> result = _graphQLClient.subscribe(options);
+    final Stream<QueryResult<Object?>> result =
+        _graphQLClient.subscribe(options);
     return result;
   }
 }

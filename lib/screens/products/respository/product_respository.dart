@@ -6,7 +6,7 @@ import '../models/product_list_data.dart';
 class ProductRespository {
   final GraphQLService _service = GraphQLService();
 
-  Future<ApiResponse> fetchProducts() async {
+  Future<ApiResponse<ProductData>> fetchProducts() async {
     String query = '''
       query {
     products(first: 20) {
@@ -23,6 +23,13 @@ class ProductRespository {
                 }
             }
         }
+        images(first: 1) {
+        edges {
+          node {
+            originalSrc
+          }
+        }
+      }
         priceRange {
           minVariantPrice {
             amount
@@ -50,7 +57,7 @@ class ProductRespository {
 ''';
     var result = await _service.performQuery(query);
     ProductData productData = ProductData.fromJson(result.data ?? {});
-    ApiResponse response = ApiResponse(
+    ApiResponse<ProductData> response = ApiResponse(
         isLoading: false,
         success: !result.hasException,
         message: "",

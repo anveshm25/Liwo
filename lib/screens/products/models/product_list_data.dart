@@ -1,172 +1,363 @@
+// To parse this JSON data, do
+//
+//     final productData = productDataFromJson(jsonString);
+
+import 'dart:convert';
+
+ProductData productDataFromJson(String str) => ProductData.fromJson(json.decode(str));
+
+String productDataToJson(ProductData data) => json.encode(data.toJson());
+
 class ProductData {
-  Products? products;
+    ProductData({
+        this.products,
+    });
 
-  ProductData({this.products});
+    Products? products;
 
-  ProductData.fromJson(Map<String, dynamic> json) {
-    products = json['products'] != null
-        ? Products.fromJson(json['products'])
-        : null;
-  }
+    ProductData copyWith({
+        Products? products,
+    }) => 
+        ProductData(
+            products: products ?? this.products,
+        );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (products != null) {
-      data['products'] = products!.toJson();
-    }
-    return data;
-  }
+    factory ProductData.fromJson(Map<String, dynamic> json) => ProductData(
+        products: json["products"] == null ? null : Products.fromJson(json["products"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "products": products?.toJson(),
+    };
 }
 
 class Products {
-  List<Edges>? edges;
+    Products({
+        this.edges,
+    });
 
-  Products({this.edges});
+    List<ProductsEdge>? edges;
 
-  Products.fromJson(Map<String, dynamic> json) {
-    if (json['edges'] != null) {
-      edges = <Edges>[];
-      json['edges'].forEach((v) {
-        edges!.add(Edges.fromJson(v));
-      });
-    }
-  }
+    Products copyWith({
+        List<ProductsEdge>? edges,
+    }) => 
+        Products(
+            edges: edges ?? this.edges,
+        );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (edges != null) {
-      data['edges'] = edges!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+    factory Products.fromJson(Map<String, dynamic> json) => Products(
+        edges: json["edges"] == null ? [] : List<ProductsEdge>.from(json["edges"]!.map((x) => ProductsEdge.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "edges": edges == null ? [] : List<dynamic>.from(edges!.map((x) => x.toJson())),
+    };
 }
 
-class Edges {
-  Node? node;
+class ProductsEdge {
+    ProductsEdge({
+        this.node,
+    });
 
-  Edges({this.node});
+    PurpleNode? node;
 
-  Edges.fromJson(Map<String, dynamic> json) {
-    node = json['node'] != null ? Node.fromJson(json['node']) : null;
-  }
+    ProductsEdge copyWith({
+        PurpleNode? node,
+    }) => 
+        ProductsEdge(
+            node: node ?? this.node,
+        );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (node != null) {
-      data['node'] = node!.toJson();
-    }
-    return data;
-  }
+    factory ProductsEdge.fromJson(Map<String, dynamic> json) => ProductsEdge(
+        node: json["node"] == null ? null : PurpleNode.fromJson(json["node"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "node": node?.toJson(),
+    };
 }
 
-class Node {
-  String? id;
-  String? title;
-  String? description;
-  Products? media;
-  PriceRange? priceRange;
-  PriceRange? compareAtPriceRange;
+class PurpleNode {
+    PurpleNode({
+        this.id,
+        this.title,
+        this.description,
+        this.media,
+        this.images,
+        this.priceRange,
+        this.compareAtPriceRange,
+    });
 
-  Node(
-      {this.id,
-      this.title,
-      this.description,
-      this.media,
-      this.priceRange,
-      this.compareAtPriceRange});
+    String? id;
+    String? title;
+    String? description;
+    Media? media;
+    Images? images;
+    PriceRange? priceRange;
+    PriceRange? compareAtPriceRange;
 
-  Node.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    description = json['description'];
-    media = json['media'] != null ? Products.fromJson(json['media']) : null;
-    priceRange = json['priceRange'] != null
-        ? PriceRange.fromJson(json['priceRange'])
-        : null;
-    compareAtPriceRange = json['compareAtPriceRange'] != null
-        ? PriceRange.fromJson(json['compareAtPriceRange'])
-        : null;
-  }
+    PurpleNode copyWith({
+        String? id,
+        String? title,
+        String? description,
+        Media? media,
+        Images? images,
+        PriceRange? priceRange,
+        PriceRange? compareAtPriceRange,
+    }) => 
+        PurpleNode(
+            id: id ?? this.id,
+            title: title ?? this.title,
+            description: description ?? this.description,
+            media: media ?? this.media,
+            images: images ?? this.images,
+            priceRange: priceRange ?? this.priceRange,
+            compareAtPriceRange: compareAtPriceRange ?? this.compareAtPriceRange,
+        );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['title'] = title;
-    data['description'] = description;
-    if (media != null) {
-      data['media'] = media!.toJson();
-    }
-    if (priceRange != null) {
-      data['priceRange'] = priceRange!.toJson();
-    }
-    if (compareAtPriceRange != null) {
-      data['compareAtPriceRange'] = compareAtPriceRange!.toJson();
-    }
-    return data;
-  }
-}
+    factory PurpleNode.fromJson(Map<String, dynamic> json) => PurpleNode(
+        id: json["id"],
+        title: json["title"],
+        description: json["description"],
+        media: json["media"] == null ? null : Media.fromJson(json["media"]),
+        images: json["images"] == null ? null : Images.fromJson(json["images"]),
+        priceRange: json["priceRange"] == null ? null : PriceRange.fromJson(json["priceRange"]),
+        compareAtPriceRange: json["compareAtPriceRange"] == null ? null : PriceRange.fromJson(json["compareAtPriceRange"]),
+    );
 
-class MediaNode {
-  String? alt;
-  String? mediaContentType;
-
-  MediaNode({this.alt, this.mediaContentType});
-
-  MediaNode.fromJson(Map<String, dynamic> json) {
-    alt = json['alt'];
-    mediaContentType = json['mediaContentType'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['alt'] = alt;
-    data['mediaContentType'] = mediaContentType;
-    return data;
-  }
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "description": description,
+        "media": media?.toJson(),
+        "images": images?.toJson(),
+        "priceRange": priceRange?.toJson(),
+        "compareAtPriceRange": compareAtPriceRange?.toJson(),
+    };
 }
 
 class PriceRange {
-  MinVariantPrice? minVariantPrice;
-  MinVariantPrice? maxVariantPrice;
+    PriceRange({
+        this.minVariantPrice,
+        this.maxVariantPrice,
+    });
 
-  PriceRange({this.minVariantPrice, this.maxVariantPrice});
+    VariantPrice? minVariantPrice;
+    VariantPrice? maxVariantPrice;
 
-  PriceRange.fromJson(Map<String, dynamic> json) {
-    minVariantPrice = json['minVariantPrice'] != null
-        ? MinVariantPrice.fromJson(json['minVariantPrice'])
-        : null;
-    maxVariantPrice = json['maxVariantPrice'] != null
-        ? MinVariantPrice.fromJson(json['maxVariantPrice'])
-        : null;
-  }
+    PriceRange copyWith({
+        VariantPrice? minVariantPrice,
+        VariantPrice? maxVariantPrice,
+    }) => 
+        PriceRange(
+            minVariantPrice: minVariantPrice ?? this.minVariantPrice,
+            maxVariantPrice: maxVariantPrice ?? this.maxVariantPrice,
+        );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (minVariantPrice != null) {
-      data['minVariantPrice'] = minVariantPrice!.toJson();
-    }
-    if (maxVariantPrice != null) {
-      data['maxVariantPrice'] = maxVariantPrice!.toJson();
-    }
-    return data;
-  }
+    factory PriceRange.fromJson(Map<String, dynamic> json) => PriceRange(
+        minVariantPrice: json["minVariantPrice"] == null ? null : VariantPrice.fromJson(json["minVariantPrice"]),
+        maxVariantPrice: json["maxVariantPrice"] == null ? null : VariantPrice.fromJson(json["maxVariantPrice"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "minVariantPrice": minVariantPrice?.toJson(),
+        "maxVariantPrice": maxVariantPrice?.toJson(),
+    };
 }
 
-class MinVariantPrice {
-  String? amount;
-  String? currencyCode;
+class VariantPrice {
+    VariantPrice({
+        this.amount,
+        this.currencyCode,
+    });
 
-  MinVariantPrice({this.amount, this.currencyCode});
+    String? amount;
+    CurrencyCode? currencyCode;
 
-  MinVariantPrice.fromJson(Map<String, dynamic> json) {
-    amount = json['amount'];
-    currencyCode = json['currencyCode'];
-  }
+    VariantPrice copyWith({
+        String? amount,
+        CurrencyCode? currencyCode,
+    }) => 
+        VariantPrice(
+            amount: amount ?? this.amount,
+            currencyCode: currencyCode ?? this.currencyCode,
+        );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['amount'] = amount;
-    data['currencyCode'] = currencyCode;
-    return data;
-  }
+    factory VariantPrice.fromJson(Map<String, dynamic> json) => VariantPrice(
+        amount: json["amount"],
+        currencyCode: currencyCodeValues.map[json["currencyCode"]]!,
+    );
+
+    Map<String, dynamic> toJson() => {
+        "amount": amount,
+        "currencyCode": currencyCodeValues.reverse[currencyCode],
+    };
+}
+
+enum CurrencyCode { INR }
+
+final currencyCodeValues = EnumValues({
+    "INR": CurrencyCode.INR
+});
+
+class Images {
+    Images({
+        this.edges,
+    });
+
+    List<ImagesEdge>? edges;
+
+    Images copyWith({
+        List<ImagesEdge>? edges,
+    }) => 
+        Images(
+            edges: edges ?? this.edges,
+        );
+
+    factory Images.fromJson(Map<String, dynamic> json) => Images(
+        edges: json["edges"] == null ? [] : List<ImagesEdge>.from(json["edges"]!.map((x) => ImagesEdge.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "edges": edges == null ? [] : List<dynamic>.from(edges!.map((x) => x.toJson())),
+    };
+}
+
+class ImagesEdge {
+    ImagesEdge({
+        this.node,
+    });
+
+    FluffyNode? node;
+
+    ImagesEdge copyWith({
+        FluffyNode? node,
+    }) => 
+        ImagesEdge(
+            node: node ?? this.node,
+        );
+
+    factory ImagesEdge.fromJson(Map<String, dynamic> json) => ImagesEdge(
+        node: json["node"] == null ? null : FluffyNode.fromJson(json["node"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "node": node?.toJson(),
+    };
+}
+
+class FluffyNode {
+    FluffyNode({
+        this.originalSrc,
+    });
+
+    String? originalSrc;
+
+    FluffyNode copyWith({
+        String? originalSrc,
+    }) => 
+        FluffyNode(
+            originalSrc: originalSrc ?? this.originalSrc,
+        );
+
+    factory FluffyNode.fromJson(Map<String, dynamic> json) => FluffyNode(
+        originalSrc: json["originalSrc"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "originalSrc": originalSrc,
+    };
+}
+
+class Media {
+    Media({
+        this.edges,
+    });
+
+    List<MediaEdge>? edges;
+
+    Media copyWith({
+        List<MediaEdge>? edges,
+    }) => 
+        Media(
+            edges: edges ?? this.edges,
+        );
+
+    factory Media.fromJson(Map<String, dynamic> json) => Media(
+        edges: json["edges"] == null ? [] : List<MediaEdge>.from(json["edges"]!.map((x) => MediaEdge.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "edges": edges == null ? [] : List<dynamic>.from(edges!.map((x) => x.toJson())),
+    };
+}
+
+class MediaEdge {
+    MediaEdge({
+        this.node,
+    });
+
+    TentacledNode? node;
+
+    MediaEdge copyWith({
+        TentacledNode? node,
+    }) => 
+        MediaEdge(
+            node: node ?? this.node,
+        );
+
+    factory MediaEdge.fromJson(Map<String, dynamic> json) => MediaEdge(
+        node: json["node"] == null ? null : TentacledNode.fromJson(json["node"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "node": node?.toJson(),
+    };
+}
+
+class TentacledNode {
+    TentacledNode({
+        this.alt,
+        this.mediaContentType,
+    });
+
+    String? alt;
+    MediaContentType? mediaContentType;
+
+    TentacledNode copyWith({
+        String? alt,
+        MediaContentType? mediaContentType,
+    }) => 
+        TentacledNode(
+            alt: alt ?? this.alt,
+            mediaContentType: mediaContentType ?? this.mediaContentType,
+        );
+
+    factory TentacledNode.fromJson(Map<String, dynamic> json) => TentacledNode(
+        alt: json["alt"],
+        mediaContentType: mediaContentTypeValues.map[json["mediaContentType"]]!,
+    );
+
+    Map<String, dynamic> toJson() => {
+        "alt": alt,
+        "mediaContentType": mediaContentTypeValues.reverse[mediaContentType],
+    };
+}
+
+enum MediaContentType { IMAGE }
+
+final mediaContentTypeValues = EnumValues({
+    "IMAGE": MediaContentType.IMAGE
+});
+
+class EnumValues<T> {
+    Map<String, T> map;
+    late Map<T, String> reverseMap;
+
+    EnumValues(this.map);
+
+    Map<T, String> get reverse {
+        reverseMap = map.map((k, v) => MapEntry(v, k));
+        return reverseMap;
+    }
 }
