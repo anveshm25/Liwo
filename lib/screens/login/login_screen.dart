@@ -59,7 +59,6 @@ class _LoginState extends State<Login> {
               ElevatedButton(
                 onPressed: () {
                   loginState.login(callback: (bool success) {
-                    print("LOGIN is successful $success");
                     if (success) {
                       context.pushReplacementNamed(
                           AppRouteConstants.productListingRouteName);

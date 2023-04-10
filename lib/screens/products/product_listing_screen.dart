@@ -94,7 +94,6 @@ class _ProductListingScreenState extends State<ProductListingScreen> {
       required String coursePrice}) {
     return GestureDetector(
       onTap: () {
-        // TODO: uncomment if you wish to navigato to course screen avaialble at FlutterBricks
         // Navigator.push(
         //   context,
         //   MaterialPageRoute(

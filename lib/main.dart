@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:liwo_mobile/config/routes/app_router.dart';
 import 'package:liwo_mobile/screens/products/controller/product_listing_controller.dart';
@@ -8,7 +10,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesUtils().init();
-  runApp(const MyApp());
+  runZonedGuarded(() => runApp(const MyApp()), (error, stack) {});
 }
 
 class MyApp extends StatelessWidget {
@@ -25,8 +27,8 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        routeInformationParser: AppRouter.getRouter().routeInformationParser,
-        routerDelegate: AppRouter.getRouter().routerDelegate,
+        routeInformationParser: router.routeInformationParser,
+        routerDelegate: router.routerDelegate,
         title: 'Flutter Demo',
         theme: ThemeData(
           // is not restarted.

@@ -8,12 +8,12 @@ import '../model/register_user_response_model.dart';
 
 class RegisterUserController extends ChangeNotifier {
   ApiResponse<RegisterUserResponse> apiResponse =
-      ApiResponse<RegisterUserResponse>(status: false);
+      ApiResponse<RegisterUserResponse>(status: Status.none);
   final RegisterRepository _registerRepository = RegisterRepository();
   final CustomerCreateInput customerInfo = CustomerCreateInput();
 
   Future signUpUser({required VoidCallback onResponse}) async {
-    apiResponse.status = true;
+    apiResponse.status = Status.loading;
     notifyListeners();
     apiResponse = await _registerRepository
         .registerUser(variables: {"input": customerInfo.toJson()});

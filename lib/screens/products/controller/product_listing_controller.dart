@@ -8,7 +8,7 @@ class ProductListingController extends ChangeNotifier {
   final ProductRespository _respository = ProductRespository();
 
   ApiResponse<ProductData> productListResponse =
-      ApiResponse<ProductData>(status: true);
+      ApiResponse<ProductData>(status: Status.loading);
 
   getProduct() async {
     productListResponse = await _respository.fetchProducts();

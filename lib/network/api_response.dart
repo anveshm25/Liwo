@@ -1,12 +1,12 @@
 class ApiResponse<T> {
-  bool status;
+  Status status;
   bool? success;
   String? message;
   T? data;
   String? error;
 
   ApiResponse({
-    required this.status,
+    this.status = Status.none,
     this.success,
     this.message,
     this.data,
@@ -18,5 +18,5 @@ enum Status {
   loading,
   success,
   error,
-  empty,
+  none,
 }
