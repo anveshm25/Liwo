@@ -14,7 +14,8 @@ class GraphQLService {
     );
   }
 
-  Future<QueryResult> performQuery(String query) async {
+  Future<QueryResult> performQuery(String query,
+      {Map<String, dynamic>? variables = const {}}) async {
     final QueryOptions options = QueryOptions(document: gql(query));
     final QueryResult result = await _graphQLClient.query(options);
     print(query);

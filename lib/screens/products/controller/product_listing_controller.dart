@@ -5,7 +5,7 @@ import 'package:liwo_mobile/screens/products/respository/product_respository.dar
 import '../models/product_list_data.dart';
 
 class ProductListingController extends ChangeNotifier {
-  final ProductRespository _respository = ProductRespository();
+  final ProductRepository _respository = ProductRepository();
 
   ApiResponse<ProductData> productListResponse =
       ApiResponse<ProductData>(status: Status.loading);
