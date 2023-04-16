@@ -26,7 +26,12 @@ class CartController extends ChangeNotifier {
   fetchCart() async {
     cartResponse = ApiResponse<CartQueryResponseModel>(status: Status.loading);
     notifyListeners();
-    cartResponse = await _cartRepository.fetchCart();
+    await Future.delayed(const Duration(seconds: 2));
+    try {
+      cartResponse = await _cartRepository.fetchCart();
+    } on Exception catch (e) {
+      print(e.toString());
+    }
     notifyListeners();
   }
 }

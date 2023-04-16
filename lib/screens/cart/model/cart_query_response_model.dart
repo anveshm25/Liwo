@@ -409,24 +409,29 @@ class EdgeNode {
 class NodeCost {
   NodeCost({
     this.compareAtAmountPerQuantity,
+    this.amountPerQuantity,
   });
 
   dynamic compareAtAmountPerQuantity;
+  TotalAmount? amountPerQuantity;
 
-  NodeCost copyWith({
-    dynamic compareAtAmountPerQuantity,
-  }) =>
+  NodeCost copyWith(
+          {dynamic compareAtAmountPerQuantity,
+          TotalAmount? amountPerQuantity}) =>
       NodeCost(
         compareAtAmountPerQuantity:
             compareAtAmountPerQuantity ?? this.compareAtAmountPerQuantity,
+        amountPerQuantity: amountPerQuantity ?? this.amountPerQuantity,
       );
 
   factory NodeCost.fromJson(Map<String, dynamic> json) => NodeCost(
         compareAtAmountPerQuantity: json["compareAtAmountPerQuantity"],
+        amountPerQuantity: TotalAmount.fromJson(json["amountPerQuantity"]),
       );
 
   Map<String, dynamic> toJson() => {
         "compareAtAmountPerQuantity": compareAtAmountPerQuantity,
+        'amountPerQuantity': amountPerQuantity
       };
 }
 
@@ -444,7 +449,7 @@ class Merchandise {
   Product? product;
   bool? currentlyNotInStock;
   int? quantityAvailable;
-  int? weight;
+  double? weight;
   String? title;
   dynamic unitPrice;
   String? id;
@@ -453,7 +458,7 @@ class Merchandise {
     Product? product,
     bool? currentlyNotInStock,
     int? quantityAvailable,
-    int? weight,
+    double? weight,
     String? title,
     dynamic unitPrice,
     String? id,

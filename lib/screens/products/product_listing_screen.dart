@@ -39,6 +39,7 @@ class _ProductListingScreenState extends State<ProductListingScreen> {
             icon: const Icon(
               Icons.person,
               color: Colors.black,
+              size: 32,
             ),
           ),
           IconButton(
@@ -50,11 +51,13 @@ class _ProductListingScreenState extends State<ProductListingScreen> {
                 const Icon(
                   Icons.shopping_cart_checkout_outlined,
                   color: Colors.black,
+                  size: 32,
                 ),
                 Consumer<CartController>(
                   builder: (BuildContext context, value, Widget? child) {
                     if (value.cartResponse.status == Status.success &&
-                        (value.cartResponse.data?.cart?.totalQuantity ?? 0) >
+                        (value.cartResponse.data?.cart?.lines?.edges?.length ??
+                                0) >
                             0) {
                       return Container(
                         width: 16,
@@ -65,8 +68,7 @@ class _ProductListingScreenState extends State<ProductListingScreen> {
                         ),
                         child: Center(
                           child: Text(
-                            "${value.cartResponse.data?.cart?.totalQuantity}",
-                            style: const TextStyle(color: Colors.black),
+                            "${value.cartResponse.data?.cart?.lines?.edges?.length}",
                           ),
                         ),
                       );

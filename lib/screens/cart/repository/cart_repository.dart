@@ -134,8 +134,8 @@ query cartQuery($cartId: ID!) {
         node {
           id
           cost{
-              compareAtAmountPerQuantity{amount,currencyCode}
-              
+              compareAtAmountPerQuantity{amount,currencyCode},
+              amountPerQuantity{amount,currencyCode}
           }
           
           quantity
