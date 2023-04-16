@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:liwo_mobile/config/routes/app_route_constants.dart';
+import 'package:liwo_mobile/screens/cart/controller/cart_controller.dart';
 import 'package:liwo_mobile/screens/products/controller/product_listing_controller.dart';
 import 'package:liwo_mobile/screens/products/models/product_list_data.dart';
 import 'package:provider/provider.dart';
@@ -18,9 +19,10 @@ class _ProductListingScreenState extends State<ProductListingScreen> {
   @override
   initState() {
     super.initState();
-    context.read<ProductListingController>().getProduct();
-    context.read<ProductListingController>().getProduct();
-    context.read<ProductListingController>().getProduct();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProductListingController>().getProduct();
+      context.read<CartController>().fetchCart();
+    });
   }
 
   @override
@@ -38,7 +40,44 @@ class _ProductListingScreenState extends State<ProductListingScreen> {
               Icons.person,
               color: Colors.black,
             ),
-          )
+          ),
+          IconButton(
+            onPressed: () =>
+                {GoRouter.of(context).pushNamed(AppRouteConstants.cartScreen)},
+            icon: Stack(
+              alignment: Alignment.topRight,
+              children: [
+                const Icon(
+                  Icons.shopping_cart_checkout_outlined,
+                  color: Colors.black,
+                ),
+                Consumer<CartController>(
+                  builder: (BuildContext context, value, Widget? child) {
+                    if (value.cartResponse.status == Status.success &&
+                        (value.cartResponse.data?.cart?.totalQuantity ?? 0) >
+                            0) {
+                      return Container(
+                        width: 16,
+                        height: 16,
+                        decoration: const BoxDecoration(
+                          color: Colors.purple,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "${value.cartResponse.data?.cart?.totalQuantity}",
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
         ],
       ),
       backgroundColor: MyTheme.backgroundColor,
@@ -68,14 +107,27 @@ class _ProductListingScreenState extends State<ProductListingScreen> {
                               ProductsEdge product = value.productListResponse
                                       .data?.products?.edges?[index] ??
                                   ProductsEdge();
-                              return courseCard(
-                                  courseImage: product.node?.images?.edges
-                                      ?.first.node?.originalSrc,
-                                  courseInfo: product.node?.title ?? '',
-                                  courseName: product.node?.title ?? '',
-                                  coursePrice: product.node?.priceRange
-                                          ?.maxVariantPrice?.amount ??
-                                      '');
+                              return GestureDetector(
+                                onTap: () => {
+                                  print('Add products ${product.node?.id}'),
+                                  value.addProductToCart(
+                                    product.node?.id ?? '',
+                                    callback: () => context.pushNamed(
+                                        AppRouteConstants.cartScreen),
+                                  ),
+                                },
+                                child: Container(
+                                  color: Colors.black,
+                                  child: courseCard(
+                                      courseImage: product.node?.images?.edges
+                                          ?.first.node?.originalSrc,
+                                      courseInfo: product.node?.title ?? '',
+                                      courseName: product.node?.title ?? '',
+                                      coursePrice: product.node?.priceRange
+                                              ?.maxVariantPrice?.amount ??
+                                          ''),
+                                ),
+                              );
                             },
                             itemCount: value.productListResponse.data?.products
                                     ?.edges?.length ??

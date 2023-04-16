@@ -4,3 +4,4 @@ const String apiUrl =
 const String customerAccessToken = 'customerAccessToken';
 const String customerAccessTokenExpiry = 'customerAccessTokenExpiry';
 const String email = 'email';
+const String cartIdPrefKey = 'cartId';

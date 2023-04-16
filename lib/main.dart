@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:liwo_mobile/config/routes/app_router.dart';
+import 'package:liwo_mobile/screens/cart/controller/cart_controller.dart';
 import 'package:liwo_mobile/screens/products/controller/product_listing_controller.dart';
 import 'package:liwo_mobile/screens/register/controller/register_user_controller.dart';
 import 'package:liwo_mobile/utils/shared_preference.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
             create: (_) => ProductListingController()),
         ChangeNotifierProvider<RegisterUserController>(
             create: (_) => RegisterUserController()),
+        ChangeNotifierProvider<CartController>(create: (_) => CartController()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
