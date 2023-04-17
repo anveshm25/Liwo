@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:liwo_mobile/screens/cart/controller/cart_controller.dart';
+import 'package:liwo_mobile/utils/payments/payment_service.dart';
 import 'package:provider/provider.dart';
 
 import '../../network/api_response.dart';
@@ -103,7 +104,9 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   const SizedBox(height: 16.0),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      PaymentService().makePayment(context);
+                    },
                     style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 32.0, vertical: 16),
